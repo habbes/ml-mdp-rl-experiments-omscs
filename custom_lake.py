@@ -18,15 +18,15 @@ MAPS = {
         "HFFG"
     ],
     "8x8": [
-        "SFFFFFFF",
+        "SFFFLFHF",
         "FFFFFFFF",
-        "FFFHFFFF",
-        "FFFFFHFF",
-        "FFFHFFFF",
+        "FFFHBFFL",
+        "BFFFFHBF",
+        "LFFHFFFL",
         "FHHFFFHF",
-        "FHFFHFHF",
+        "FHFFHBHF",
         "FFFHFFFG"
-    ],
+    ]
 }
 
 class CustomLakeEnv(discrete.DiscreteEnv):
@@ -53,7 +53,7 @@ class CustomLakeEnv(discrete.DiscreteEnv):
 
     metadata = {'render.modes': ['human', 'ansi']}
 
-    def __init__(self, desc=None, map_name="4x4",is_slippery=True,uniform_action_prob=True,hole_reward=0.0):
+    def __init__(self, desc=None, map_name="4x4",is_slippery=True,uniform_action_prob=True,hole_reward=0.0,bonus_rewards=False):
         if desc is None and map_name is None:
             raise ValueError('Must provide either desc or map_name')
         elif desc is None:
@@ -103,6 +103,10 @@ class CustomLakeEnv(discrete.DiscreteEnv):
                                     rew = hole_reward
                                 elif newletter == b'G':
                                     rew = 1.0
+                                elif newletter == b'B':
+                                    rew = 0.3
+                                elif newletter == b'L':
+                                    rew = -0.3
                                 else:
                                     rew = 0.0
                                 if uniform_action_prob:
